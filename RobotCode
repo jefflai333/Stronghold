@@ -37,6 +37,10 @@ public class Robot extends IterativeRobot {
     double deadZone;
     double leftDriveValue;
     double rightDriveValue;
+    double xpositive;
+    double xnegative;
+    double ypositive;
+    double ynegative;
     int debounceLoopCount;
     final String defaultAuto = "Default";
     final String customAuto = "My Auto";
@@ -66,6 +70,10 @@ public class Robot extends IterativeRobot {
         armLift = new Talon(6);
         cameraRotate = new Servo(2);
         cameraTilt = new Servo(3);
+        xpositive = 0.0;
+        xnegative = 0.0;
+        ypositive = 0.0;
+        ynegative = 0.0;
     }
     
 	/**
@@ -133,14 +141,20 @@ public class Robot extends IterativeRobot {
         System.out.println("End of loop");
         System.out.println();
         System.out.println();
-        if (driveStick.getRawButton(3) && debounceLoopCount < 1) {
-        	debounceLoopCount = 15;
+        if (driveStick.getRawButton(3)) {
+        xpositive = xpositive + 0.1
         }
-    	if (debounceLoopCount > 0) {
-    		debounceLoopCount--;
-    	}
-    	cameraRotate.set((driveStick.getRawAxis(0) + 1) / 2 );
-    	cameraTilt.set((driveStick.getRawAxis(1) + 1) / 2 );
+        if (driveStick.getRawButton(4)) {
+        xnegative = xnegative - 0.1
+        }
+        if (driveStick.getRawButton(5)) {
+        ypositive = ypositive + 0.1
+        }
+        if (driveStick.getRawButton(6)) {
+        ynegative = ynegative - 0.1
+        }
+    	cameraRotate.set(xpositive + xnegative);
+    	cameraTilt.set(ypositive + ynegative);
         if(driveStick.getRawButton(7)) {
         	armLift.set(1.0);
         }
